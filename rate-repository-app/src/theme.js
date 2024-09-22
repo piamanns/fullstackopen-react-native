@@ -3,8 +3,11 @@ const theme = {
     textPrimary: '#24292e',
     textSecondary: '#586069',
     textAppBar: '#ffffff',
+    textButton: '#ffffff',
     primary: '#0366d6',
-    bgAppBar: '#24292e'
+    bgAppBar: '#24292e',
+    bgMain: '#e1e4e8',
+    bgItem: 'white',
   },
   fontSizes: {
     body: 14,

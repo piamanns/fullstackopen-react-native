@@ -5,7 +5,7 @@ import theme from '../theme';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: Constants.statusBarHeight + 20,
     paddingBottom: 20,
     paddingHorizontal: 20,
     display: "flex",
