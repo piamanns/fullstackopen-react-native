@@ -5,11 +5,9 @@ import theme from '../theme';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight + 20,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-    display: "flex",
-    flexDirection: "row",
+    paddingTop: Constants.statusBarHeight,
+    display: 'flex',
+    flexDirection: 'row',
     backgroundColor: theme.colors.bgAppBar,
   }
 });
@@ -17,7 +15,8 @@ const styles = StyleSheet.create({
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <AppBarTab text={"Repositories"}/>
+      <AppBarTab text="Repositories" route="/"/>
+      <AppBarTab text="Sign in" route="/signin"/>
     </View>
   );
 };
