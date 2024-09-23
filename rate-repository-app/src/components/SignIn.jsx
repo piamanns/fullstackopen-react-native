@@ -1,7 +1,8 @@
 import { useFormik } from 'formik';
 import { View, TextInput, Pressable, StyleSheet } from 'react-native';
 import Text from './Text';
-import theme from '../theme'
+import theme from '../theme';
+import * as yup from 'yup';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,12 +25,22 @@ const styles = StyleSheet.create({
   }
 })
 
+const validationSchema = yup.object().shape({
+  username: yup
+    .string()
+    .required('Username is required'),
+  password: yup
+    .string()
+    .required('Password is required'),
+});
+
 const SignIn = () => {
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
+    validationSchema,
     onSubmit: (values) => {
       console.log(values)
     }
@@ -41,15 +52,33 @@ const SignIn = () => {
         placeholder='Username'
         value={formik.values.username}
         onChangeText={formik.handleChange('username')}
-        style={styles.textInput}
+        style={[
+          styles.textInput,
+          {borderColor: formik.touched.username && formik.errors.username
+            ? theme.colors.error
+            : theme.colors.border
+          }
+        ]}
       />
+      {formik.touched.username && formik.errors.username && (
+         <Text color='error'>{formik.errors.username}</Text>
+      )}
       <TextInput
         placeholder='Password'
         value={formik.values.password}
         onChangeText={formik.handleChange('password')}
         secureTextEntry={true}
-        style={styles.textInput}
+        style={[
+          styles.textInput,
+          {borderColor: formik.touched.password && formik.errors.password
+            ? theme.colors.error
+            : theme.colors.border
+          }
+        ]}
       />
+      {formik.touched.password && formik.errors.password && (
+         <Text color='error'>{formik.errors.password}</Text>
+      )}
       <View>
         <Pressable
           onPress={formik.handleSubmit}

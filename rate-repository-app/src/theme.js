@@ -6,6 +6,8 @@ const theme = {
     textButton: '#ffffff',
     primary: '#0366d6',
     secondary: '#02a8d6',
+    error: '#d73a4a',
+    border: '#586069',
     bgAppBar: '#24292e',
     bgMain: '#e1e4e8',
     bgItem: 'white',
