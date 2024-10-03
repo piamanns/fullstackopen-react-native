@@ -1,9 +1,11 @@
 import { useFormik } from 'formik';
 import { View, TextInput, Pressable, StyleSheet } from 'react-native';
+import { useNavigate } from 'react-router-native';
 import Text from './Text';
 import theme from '../theme';
 import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -37,6 +39,7 @@ const validationSchema = yup.object().shape({
 
 const SignIn = () => {
   const [signIn] = useSignIn();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -50,6 +53,7 @@ const SignIn = () => {
         const result = await signIn({ username, password });
         console.log(`User ${username} is authenticated`)
         console.log(`Access token: ${result.data.authenticate.accessToken}`)
+        navigate('/')
       } catch (e) {
         console.log(e);
       }
