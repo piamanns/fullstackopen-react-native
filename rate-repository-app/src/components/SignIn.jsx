@@ -50,9 +50,9 @@ const SignIn = () => {
     onSubmit: async (values) => {
       const { username, password } = values;
       try {
-        const result = await signIn({ username, password });
+        const authResult = await signIn({ username, password });
         console.log(`User ${username} is authenticated`)
-        console.log(`Access token: ${result.data.authenticate.accessToken}`)
+        console.log(`Access token: ${authResult.data.authenticate.accessToken}`)
         navigate('/')
       } catch (e) {
         console.log(e);
