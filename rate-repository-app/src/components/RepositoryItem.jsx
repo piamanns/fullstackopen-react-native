@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryItem = ({item}) => (
-  <View key={item.id} style={styles.container}>
+  <View testID="repositoryItem" key={item.id} style={styles.container}>
     <BasicInfo item={item} />
     <Stats
       starsCount={item.stargazersCount}
