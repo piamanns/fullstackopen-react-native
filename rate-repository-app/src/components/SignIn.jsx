@@ -1,10 +1,11 @@
 import { useFormik } from 'formik';
-import { View, TextInput, Pressable, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import Text from './Text';
 import theme from '../theme';
 import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
+import Button from './Button';
 
 
 const styles = StyleSheet.create({
@@ -81,23 +82,7 @@ export const SignInContainer = ({ onSubmit }) => {
       {formik.touched.password && formik.errors.password && (
          <Text color='error'>{formik.errors.password}</Text>
       )}
-      <View>
-        <Pressable
-          onPress={formik.handleSubmit}
-          style={({pressed}) => [
-            styles.button,
-            {
-              backgroundColor: pressed
-                ? theme.colors.secondary
-                : theme.colors.primary
-            },
-          ]}
-        >
-          <Text color='textButton' fontWeight='bold' style={styles.buttonText}>
-            Sign in
-          </Text>
-        </Pressable>
-      </View>
+      <Button label='Sign in' onBtnPress={formik.handleSubmit}></Button>
     </View>
   )};
 
