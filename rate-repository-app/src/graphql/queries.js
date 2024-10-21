@@ -14,7 +14,6 @@ const REPOSITORY_DETAILS = gql`
   }
 `
 
-
 export const GET_REPOSITORIES = gql`
   query GetRepositories {
     repositories {
@@ -42,6 +41,20 @@ export const GET_REPOSITORY_BY_ID = gql`
     repository(id: $id) {
       ...RepositoryDetails
       url
+      reviews {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+          }
+        }
+      }
     }
   }
    ${REPOSITORY_DETAILS}

@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
 
 const openUrl = (url) => {
   try {
-    console.log("attempting to open", url)
     Linking.openURL(url)
   } catch (e) {
     console.log(e);
