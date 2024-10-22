@@ -21,7 +21,10 @@ const { data } = useQuery(GET_CURRENT_USER);
       <ScrollView horizontal>
         <AppBarTab text="Repositories" route="/"/>
         {data && data.me
-          ? <SignOutTab/>
+          ? <>
+              <AppBarTab text="Create a review" route="/createreview"/>
+              <SignOutTab/>
+            </>
           : <AppBarTab text="Sign in" route="/signin"/>
         }
       </ScrollView>
