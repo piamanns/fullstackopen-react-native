@@ -25,7 +25,10 @@ const { data } = useQuery(GET_CURRENT_USER);
               <AppBarTab text="Create a review" route="/createreview"/>
               <SignOutTab/>
             </>
-          : <AppBarTab text="Sign in" route="/signin"/>
+          : <>
+              <AppBarTab text="Sign in" route="/signin"/>
+              <AppBarTab text="Sign up" route="/signup"/>
+            </>
         }
       </ScrollView>
     </View>
