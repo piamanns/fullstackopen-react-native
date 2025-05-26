@@ -21,11 +21,12 @@ const parseOrder = (order) => {
   return { orderBy, orderDirection };
 }
 
-const useRepositories = ({ order }) => {
+const useRepositories = ({ order, searchKeyword }) => {
+    // console.log("Find repositories matching keyword", searchKeyword);
     const { orderBy, orderDirection } = parseOrder(order);
     const { data, error, loading } = useQuery(GET_REPOSITORIES, {
       fetchPolicy: 'cache-and-network',
-      variables: { orderBy, orderDirection }
+      variables: { orderBy, orderDirection, searchKeyword}
     });
     return { repositories: data ? data.repositories : null, error, loading };
 };

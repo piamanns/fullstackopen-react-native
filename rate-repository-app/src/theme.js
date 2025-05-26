@@ -13,6 +13,7 @@ const theme = {
     bgAppBar: '#24292e',
     bgMain: '#e1e4e8',
     bgItem: 'white',
+    bgSearch: 'white',
   },
   fontSizes: {
     body: 14,
