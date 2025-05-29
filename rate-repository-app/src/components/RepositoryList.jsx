@@ -1,4 +1,4 @@
-import {FlatList, View, Pressable, StyleSheet, TextInput } from 'react-native';
+import { FlatList, View, Pressable, StyleSheet, TextInput } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
