@@ -3,6 +3,10 @@ import theme from '../theme';
 import Text from './Text';
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    display: 'flex',
+    flexGrow: 1,
+  },
   buttonMain: {
     borderRadius: 4,
     padding: 12,
@@ -13,8 +17,8 @@ const styles = StyleSheet.create({
 });
 
 const Button = ({ label, onBtnPress }) => {
-  return(
-    <View>
+  return (
+    <View style={styles.buttonContainer}>
       <Pressable
         onPress={onBtnPress}
         style={({pressed}) => [

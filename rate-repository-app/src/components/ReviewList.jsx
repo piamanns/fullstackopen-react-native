@@ -1,26 +1,34 @@
 import { FlatList, View, StyleSheet } from 'react-native';
+import { useNavigate } from 'react-router-native';
 import ReviewItem from './ReviewItem';
 import Text from './Text';
+import Button from './Button';
 import theme from '../theme';
 import useCurrentUser from '../hooks/useCurrentUser';
 
 const styles = StyleSheet.create({
+  buttonsContainer: {
+    flexDirection: 'row',
+    backgroundColor: theme.colors.bgItem,
+    justifyContent: 'space-between',
+    gap: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
   messageContainer: {
     backgroundColor: theme.colors.bgItem,
     padding: 20,
   },
-  reviewItemContainer: {
-    backgroundColor: theme.colors.bgItem,
-    padding: 20,
-  },
-    separator: {
+  separator: {
     height: 10,
   },
 });
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const ReviewContainer = ({ reviews }) => {
+const ReviewListContainer = ({ reviews }) => {
+  const navigate = useNavigate();
+
   const reviewNodes = reviews
     ? reviews.edges.map(edge => edge.node)
     : [];
@@ -33,13 +41,23 @@ const ReviewContainer = ({ reviews }) => {
     )
   }
 
+  const openRepoView = (repoId) => {
+    navigate(`/${repoId}`);
+  }
+
   return (
     <FlatList
       data={reviewNodes}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({item}) => {
         return (
-          <ReviewItem item={item} title={item.repository.fullName}/>
+          <>
+            <ReviewItem item={item} title={item.repository.fullName}/>
+            <View style={styles.buttonsContainer}>
+              <Button label="View repository" onBtnPress={() => openRepoView(item.repository.id)}/>
+              <Button label="Delete review"/>
+            </View>
+          </>
         )}
       }
     />
@@ -68,7 +86,7 @@ const ReviewList = () => {
   return (
     <>
       {currentUser
-        ? <ReviewContainer reviews={currentUser.reviews}/>
+        ? <ReviewListContainer reviews={currentUser.reviews}/>
         : <View style={styles.messageContainer}>
             <Text color='error'>Sign in to view your own reviews </Text>
           </View>
