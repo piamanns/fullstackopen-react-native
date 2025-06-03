@@ -1,10 +1,11 @@
-import { FlatList, View, StyleSheet } from 'react-native';
+import { FlatList, View, StyleSheet, Alert } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import ReviewItem from './ReviewItem';
 import Text from './Text';
 import Button from './Button';
 import theme from '../theme';
 import useCurrentUser from '../hooks/useCurrentUser';
+import useDeleteReview from '../hooks/useDeleteReview';
 
 const styles = StyleSheet.create({
   buttonsContainer: {
@@ -26,8 +27,9 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const ReviewListContainer = ({ reviews }) => {
+const ReviewListContainer = ({ reviews, refetchReviews }) => {
   const navigate = useNavigate();
+  const [deleteReview] = useDeleteReview();
 
   const reviewNodes = reviews
     ? reviews.edges.map(edge => edge.node)
@@ -45,6 +47,25 @@ const ReviewListContainer = ({ reviews }) => {
     navigate(`/${repoId}`);
   }
 
+  const handleDelete = async (deleteReviewId) => {
+    try {
+      await deleteReview({ deleteReviewId });
+      refetchReviews();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const openDeleteAlert = (reviewId) => {
+    Alert.alert('Delete review', 'Are you sure you want to delete this review?', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel delete review'),
+      },
+      {text: 'Delete', onPress: () => handleDelete(reviewId)},
+    ]);
+  }
+
   return (
     <FlatList
       data={reviewNodes}
@@ -55,7 +76,11 @@ const ReviewListContainer = ({ reviews }) => {
             <ReviewItem item={item} title={item.repository.fullName}/>
             <View style={styles.buttonsContainer}>
               <Button label="View repository" onBtnPress={() => openRepoView(item.repository.id)}/>
-              <Button label="Delete review"/>
+              <Button
+                label="Delete review"
+                type='delete'
+                onBtnPress={() => openDeleteAlert(item.id)}
+              />
             </View>
           </>
         )}
@@ -65,7 +90,7 @@ const ReviewListContainer = ({ reviews }) => {
 }
 
 const ReviewList = () => {
-  const { currentUser, error, loading } = useCurrentUser(true);
+  const { currentUser, error, loading, refetch } = useCurrentUser(true);
 
   if (loading) {
     return (
@@ -86,7 +111,7 @@ const ReviewList = () => {
   return (
     <>
       {currentUser
-        ? <ReviewListContainer reviews={currentUser.reviews}/>
+        ? <ReviewListContainer reviews={currentUser.reviews} refetchReviews={refetch}/>
         : <View style={styles.messageContainer}>
             <Text color='error'>Sign in to view your own reviews </Text>
           </View>

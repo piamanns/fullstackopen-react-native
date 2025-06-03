@@ -16,7 +16,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const Button = ({ label, onBtnPress }) => {
+const Button = ({ label, onBtnPress, type='basic' }) => {
+  const bgColor = type === 'delete' ?  theme.colors.delete : theme.colors.primary;
+  const bgColorPressed = type === 'delete' ? theme.colors.deleteSecondary : theme.colors.secondary;
+
   return (
     <View style={styles.buttonContainer}>
       <Pressable
@@ -25,8 +28,8 @@ const Button = ({ label, onBtnPress }) => {
           styles.buttonMain,
           {
             backgroundColor: pressed
-              ? theme.colors.secondary
-              : theme.colors.primary
+              ? bgColorPressed
+              : bgColor
           },
         ]}
       >

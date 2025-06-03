@@ -8,6 +8,8 @@ const theme = {
     textButton: '#ffffff',
     primary: '#0366d6',
     secondary: '#02a8d6',
+    delete: '#d73a4a',
+    deleteSecondary: '#ff4256',
     error: '#d73a4a',
     border: '#586069',
     bgAppBar: '#24292e',

@@ -32,3 +32,8 @@ export const CREATE_USER = gql`
     }
   }
 `
+export const DELETE_REVIEW_BY_ID = gql`
+  mutation DeleteReview($deleteReviewId: ID!){
+    deleteReview(id: $deleteReviewId)
+  }
+`
