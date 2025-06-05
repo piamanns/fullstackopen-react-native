@@ -7,6 +7,7 @@ import RepositoryItem from './RepositoryItem';
 import useRepositories from '../hooks/useRepositories';
 import theme from '../theme';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import Text from './Text';
 
 const styles = StyleSheet.create({
   separator: {
@@ -23,6 +24,10 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1
+  },
+  messageContainer: {
+    backgroundColor: theme.colors.bgItem,
+    padding: 20,
   },
 });
 
@@ -88,8 +93,22 @@ const ListHeader = ({ order, setOrder, setSearchKeyword }) => {
   )
 }
 
-export const RepositoryListContainer = ({ repositories, order, setOrder, setSearchKeyword }) => {
+export const RepositoryListContainer = ({
+  repositories,
+  onEndReach,
+  order,
+  setOrder,
+  setSearchKeyword
+}) => {
   const navigate = useNavigate();
+
+  if (!repositories || repositories.length === 0) {
+    return (
+      <View style={styles.messageContainer}>
+        <Text>No repositories added.</Text>
+      </View>
+    )
+  }
 
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
@@ -115,6 +134,8 @@ export const RepositoryListContainer = ({ repositories, order, setOrder, setSear
           setSearchKeyword={setSearchKeyword}
         />
       }
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 }
@@ -122,11 +143,17 @@ export const RepositoryListContainer = ({ repositories, order, setOrder, setSear
 const RepositoryList = () => {
   const [order, setOrder] = useState("latest");
   const [searchKeyword, setSearchKeyword] = useState("");
-  const { repositories } = useRepositories({ order, searchKeyword });
+  const { repositories, fetchMore } = useRepositories({ first: 6, order, searchKeyword });
+
+  const onEndReach = () => {
+    // console.log("End of list reached");
+    fetchMore();
+  };
 
   return (
     <RepositoryListContainer
       repositories={repositories}
+      onEndReach={onEndReach}
       order={order}
       setOrder={setOrder}
       setSearchKeyword = {setSearchKeyword}

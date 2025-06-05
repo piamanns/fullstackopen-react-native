@@ -21,14 +21,42 @@ const parseOrder = (order) => {
   return { orderBy, orderDirection };
 }
 
-const useRepositories = ({ order, searchKeyword }) => {
+const useRepositories = ({ first, order, searchKeyword }) => {
     // console.log("Find repositories matching keyword", searchKeyword);
     const { orderBy, orderDirection } = parseOrder(order);
-    const { data, error, loading } = useQuery(GET_REPOSITORIES, {
+    const { data, loading, fetchMore, ...result } = useQuery(GET_REPOSITORIES, {
       fetchPolicy: 'cache-and-network',
-      variables: { orderBy, orderDirection, searchKeyword}
+      variables: {
+        first,
+        orderBy,
+        orderDirection,
+        searchKeyword
+      }
     });
-    return { repositories: data ? data.repositories : null, error, loading };
+
+    const handleFetchMore = () => {
+      const canFetchMore = !loading && data?.repositories.pageInfo.hasNextPage;
+
+      if (!canFetchMore) {
+        return;
+      }
+
+      fetchMore({
+        variables: {
+          after: data.repositories.pageInfo.endCursor,
+          orderBy,
+          orderDirection,
+          searchKeyword,
+        }
+      });
+    };
+
+    return {
+      repositories: data ? data.repositories : null,
+      fetchMore: handleFetchMore,
+      loading,
+      ...result
+    };
 };
 
 export default useRepositories;
