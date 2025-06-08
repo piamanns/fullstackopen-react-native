@@ -57,11 +57,11 @@ export const GET_CURRENT_USER = gql`
 `
 
 export const GET_REPOSITORY_BY_ID = gql`
-  query GetRepositoryById($id: ID!) {
+  query GetRepositoryById($id: ID!, $first: Int, $after: String) {
     repository(id: $id) {
       ...RepositoryDetails
       url
-      reviews {
+      reviews (first: $first, after: $after) {
         edges {
           node {
             id
@@ -73,9 +73,15 @@ export const GET_REPOSITORY_BY_ID = gql`
               username
             }
           }
+          cursor
+        }
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
         }
       }
     }
   }
-   ${REPOSITORY_DETAILS}
+  ${REPOSITORY_DETAILS}
 `
